@@ -1,25 +1,37 @@
 import requests
-from bs4 import BeautifulSoup, Tag, NavigableString
+from bs4 import BeautifulSoup, Tag
 import re
-from typing import Optional, Union, Tuple, Type
-
-ErrorType = Type[Exception]
-ReturnType1 = Union[BeautifulSoup, Tuple[None, ErrorType]]
-ReturnType2 = Union[str, Tuple[None, ErrorType]]
 
 class AptoideApp:
     """Class for scraping the Aptoide App store (https://en.aptoide.com)."""
-    def __init__(self, url: str) -> None:
+    def __init__(self, 
+                 url: str, 
+                 app_name: str = "", 
+                 app_version: str = "", 
+                 downloads: str = "", 
+                 release_date: str = "",
+                 description: str = "") -> None:
         self.url: str = url
         self.soup: BeautifulSoup = self.parse_html_as_soup()
         if self.soup is None:
             raise ValueError("Failed to parse HTML as BeautifulSoup object.")
         
-        self.app_name: str = self.parse_app_name()
-        self.app_version: str = self.parse_app_version()
-        self.downloads: str = self.parse_downloads()
-        self.release_date: str = self.parse_release_date()
-        self.description: str = self.parse_description()
+        self.app_name: str = app_name
+        self.app_version: str = app_version
+        self.downloads: str = downloads
+        self.release_date: str = release_date
+        self.description: str = description
+
+        if self.app_name == "":
+            self.app_name = self.parse_app_name()
+        if self.app_version == "":
+            self.app_version = self.parse_app_version()
+        if self.downloads == "":
+            self.downloads = self.parse_downloads()
+        if self.release_date == "":
+            self.release_date = self.parse_release_date()
+        if self.description == "":
+            self.description = self.parse_description()
 
 
     def parse_html_as_soup(self) -> BeautifulSoup:
@@ -36,6 +48,7 @@ class AptoideApp:
         except Exception as e:
             raise ValueError(f"There was an error in processing the GET request. {e}")
 
+
     def parse_app_name(self) -> str:
         """Parses BeautifulSoup object from Aptoide store URL and returns app name."""
         try:
@@ -47,6 +60,7 @@ class AptoideApp:
                 raise ValueError("Failed to find app name element.")
         except Exception as e:
             raise ValueError("There was an error parsing the app name:", e)
+
 
     def parse_app_version(self) -> str:
         """Parses BeautifulSoup object from Aptoide store URL and returns app version."""
@@ -61,9 +75,6 @@ class AptoideApp:
             raise ValueError("Failed to find app version element.")
         except Exception as e:
             raise ValueError("There was an error parsing the app version:", e)
-
-        # Add a default return statement in case the conditions are not met
-        return ""
 
 
     def parse_downloads(self) -> str:
