@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Title</title>
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 16px;
+			}
+			input[type="text"] {
+				border: 1px solid #ccc;
+				background-color: #ccc;
+				min-width: 450px;
+			}
+			.data-container {
+				margin: 15px;
+			}
+		</style>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Didact+Gothic"
+			rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto"
+			rel="stylesheet" />
+	</head>
+	<body>
+		<div class="topnav">
+			<div class="search-container">
+				<input
+					id="aptoide-url"
+					type="text"
+					placeholder="https://example.en.aptoide.com/app" />
+				<button type="button" onclick="fetchAptoideApp(aptoideUrl)">
+					Submit
+				</button>
+			</div>
+		</div>
+		<div class="results">
+			<div id="app-name" class="data-container"></div>
+			<div id="app-version" class="data-container"></div>
+			<div id="app-date" class="data-container"></div>
+			<div id="app-downloads" class="data-container"></div>
+			<div id="app-description" class="data-container"></div>
+		</div>
+		<script>
+			const aptoideUrl = document.getElementById("aptoide-url");
+			const appName = document.getElementById("app-name");
+			const appVersion = document.getElementById("app-version");
+			const appDate = document.getElementById("app-date");
+			const appDownloads = document.getElementById("app-downloads");
+			const appDescription = document.getElementById("app-description");
+
+			async function fetchAptoideApp(url) {
+				const response = await fetch(
+					`http://127.0.0.1:8000/api?url=${url.value}`
+				);
+				const status_code = await response.status;
+				if (status_code === 200) {
+					const json_data = await response.json();
+					appName.innerText = `App Name: ${json_data.app_name}`;
+					appVersion.innerText = `App Version: ${json_data.app_version}`;
+					appDownloads.innerText = `Number of Downloads: ${json_data.app_downloads}`;
+					appDate.innerText = `Release Date: ${json_data.release_date}`;
+					appDescription.innerText = `Description:\n ${json_data.description}`;
+				} else {
+					appName.innerText = `The URL ${url.value} is an invalid Aptoide App. Please enter a valid Aptoide App URL.`;
+					appVersion.innerText = "";
+					appDate.innerText = "";
+					appDownloads.innerText = "";
+					appDescription.innerText = "";
+				}
+			}
+		</script>
+	</body>
+</html>
