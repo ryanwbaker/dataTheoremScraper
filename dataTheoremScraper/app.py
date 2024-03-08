@@ -1,4 +1,4 @@
-import falcon
+import falcon # type: ignore
 from .api import Resource
 
 app = application = falcon.App()

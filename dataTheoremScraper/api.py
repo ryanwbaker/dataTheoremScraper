@@ -1,5 +1,5 @@
 import json
-import falcon
+import falcon # type: ignore
 from . import scraper
 
 
