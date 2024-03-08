@@ -16,9 +16,7 @@ dataTheoremScraper
 |   └── scraper.py
 ├── tests
 │   ├── __init__.py
-│   ├── test_api.py
-│   ├── test_app.py
-|   └── test_scraper.py
+|   └── test_app.py
 ├── frontend
 │   ├── app.js
 │   ├── index.html
@@ -60,6 +58,18 @@ Assuming a Windows machine is used:
 Mac/Linux users will have to use [gunicorn](https://docs.gunicorn.org/en/stable/) in place of [waittress](https://docs.pylonsproject.org/projects/waitress/en/stable/), and follow the [Falcon WSGI tutorial](https://falcon.readthedocs.io/en/3.1.3/user/tutorial.html) for starting a Falcon application with gunicorn.
 
 ## Type Checking and Unit Testing
+
+-  As per the requirements, type checking with the `mypy` library and unit tests were included (`pytest` library was used because of familiarity and consistency with the Falcon WSGI tutorial).
+-  More unit tests could have potentially been included. Only the most important tests were included, as this was simply a demonstration of ability to include unit testing in a project.
+-  Screenshots of the type checking and unit testing results are shown below for reference.
+
+mypy screenshot:
+
+![mypy-screenshot.png](mypy-screenshot.png "mypy screenshot")
+
+pytest screenshot:
+
+![pytest-screenshot.png](pytest-screenshot.png "pytest screenshot")
 
 ## Future Considerations
 
