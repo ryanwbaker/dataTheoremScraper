@@ -49,7 +49,7 @@ Assuming a Windows machine is used and the project is being run locally:
 1. Download this repo
 1. Create a virtual environment in the same directory as the repo by running `virtualenv <your_env>`, where `<your_env>` is the name of your virtual environment.
 1. Activate the virtual environment by running `<your_env>\Scripts\activate`.
-1. Run `pip install requirements.txt` from inside the root directory `dataTheoremScraper`.
+1. Run `pip install -r requirements.txt` from inside the root directory `dataTheoremScraper`.
 1. Once installation is complete, run `waitress-serve --port=8000 dataTheoremScraper.app:app` from a command prompt inside the root directory `dataTheoremScraper`. This will start the backend application.
 1. Go to http://127.0.0.1:8000/ to use the web page. It was provided as a separate resource in the API to prevent local CORS errors, but if the API were actually deployed to the world wide web, then Note that little time was spent on the frontend and only basic functionality is available, since this was outlined in [the requirements](requirements.md). For more sophisticated resources to be served from a Falcon application, something like [Jinja2](https://pypi.org/project/Jinja2/) should be used to serve templated pages with separate JavaScript and CSS files.
 1. To manually use the API, go to http://127.0.0.1:8000/api?url=https://example.en.aptoide.com/app, but replace `example` in the URL so it links to an actual Aptoide app (e.g. http://127.0.0.1:8000/api?url=https://facebook.en.aptoide.com/app for the Aptoide Facebook app).
