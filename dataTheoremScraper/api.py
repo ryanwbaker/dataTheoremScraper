@@ -23,5 +23,5 @@ class Resource:
             resp.text = json.dumps(doc, ensure_ascii=False)
             resp.status = falcon.HTTP_200
         except Exception as err:
-            resp.text=falcon.HTTP_405+": "+str(err)
-            resp.status = falcon.HTTP_405
+            resp.text=falcon.HTTP_400+": "+str(err)
+            resp.status = falcon.HTTP_400

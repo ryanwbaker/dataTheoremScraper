@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup, Tag
 import re
+from urllib.parse import urlparse
 
 class AptoideApp:
     """Class for scraping the Aptoide App store (https://en.aptoide.com)."""
@@ -36,8 +37,16 @@ class AptoideApp:
 
     def parse_html_as_soup(self) -> BeautifulSoup:
         """Checks if URL is a valid Aptoide URL and returns BeautifulSoup object if valid."""
-        if not(self.url.endswith(".aptoide.com/app")):
-            raise ValueError("The provided URL is an invalid link to an Aptoide app.")
+        parsed_url = urlparse(self.url)
+        # fragment not necessary because requested app is sent as query string (falcon request object removes fragment when parsed)
+        if not(parsed_url.scheme == 'https'):
+            raise ValueError("The provided URL does not have an https scheme.")
+        if not(parsed_url.netloc.endswith('.aptoide.com')):
+            raise ValueError("The provided URL does not come from the aptoide.com domain.")
+        if not(parsed_url.path == '/app'):
+            raise ValueError("The provided URL does not have the path '/app'.")
+        if not(parsed_url.query == ''):
+            raise ValueError("The provided URL contains a query string.")
         try:
             response = requests.get(self.url)
             if response.status_code == 200:
